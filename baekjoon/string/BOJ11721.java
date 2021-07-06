@@ -1,4 +1,4 @@
-package baekjoon.string;
+package string;
 
 import java.io.*;
 
