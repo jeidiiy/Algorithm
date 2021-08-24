@@ -1,4 +1,4 @@
-package recur;
+package baekjoon.recur;
 
 import java.io.*;
 

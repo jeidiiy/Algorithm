@@ -1,4 +1,4 @@
-package priority_queue;
+package baekjoon.priority_queue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

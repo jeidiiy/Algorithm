@@ -1,4 +1,4 @@
-package nt_com;
+package baekjoon.nt_com;
 
 import java.io.*;
 import java.util.StringTokenizer;

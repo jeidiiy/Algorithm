@@ -1,4 +1,4 @@
-package string;
+package baekjoon.string;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

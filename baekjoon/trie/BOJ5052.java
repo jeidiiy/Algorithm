@@ -1,4 +1,4 @@
-package trie;
+package baekjoon.trie;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
