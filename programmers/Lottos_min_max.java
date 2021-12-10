@@ -1,7 +1,5 @@
 package programmers;
 
-import java.util.*;
-
 public class Lottos_min_max {
 
     private static int LOTTOS_LENGTH = 6;
@@ -11,30 +9,19 @@ public class Lottos_min_max {
         int zeroCount = 0;
         int correctNumCount = 0;
 
-        Arrays.sort(lottos);
-        Arrays.sort(win_nums);
-
         for (int i = 0; i < LOTTOS_LENGTH; i++) {
-            if (lottos[i] == 0) {
-                zeroCount++;
-            }
-        }
-
-        for (int i = 0; i < LOTTOS_LENGTH - zeroCount; i++) {
             for (int j = 0; j < LOTTOS_LENGTH; j++) {
-                if (lottos[zeroCount + i] == win_nums[j]) {
+                if (lottos[i] == win_nums[j]) {
                     correctNumCount++;
                     break;
                 }
             }
+            if (lottos[i] == 0)
+                zeroCount++;
         }
 
-        if (zeroCount == 0) {
-            answer[0] = answer[1] = calcRank(correctNumCount);
-        } else {
-            answer[0] = calcRank(correctNumCount + zeroCount);
-            answer[1] = calcRank(correctNumCount);
-        }
+        answer[0] = calcRank(correctNumCount + zeroCount);
+        answer[1] = calcRank(correctNumCount);
 
         return answer;
     }
@@ -55,4 +42,5 @@ public class Lottos_min_max {
                 return 6;
         }
     }
+
 }
