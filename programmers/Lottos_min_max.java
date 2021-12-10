@@ -2,22 +2,21 @@ package programmers;
 
 public class Lottos_min_max {
 
-    private static int LOTTOS_LENGTH = 6;
-
     public int[] solution(int[] lottos, int[] win_nums) {
         int[] answer = new int[2];
         int zeroCount = 0;
         int correctNumCount = 0;
 
-        for (int i = 0; i < LOTTOS_LENGTH; i++) {
-            for (int j = 0; j < LOTTOS_LENGTH; j++) {
-                if (lottos[i] == win_nums[j]) {
+        for (int lotto : lottos) {
+            if (lotto == 0) {
+                zeroCount++;
+                continue;
+            }
+            for (int win_num : win_nums) {
+                if (lotto == win_num) {
                     correctNumCount++;
-                    break;
                 }
             }
-            if (lottos[i] == 0)
-                zeroCount++;
         }
 
         answer[0] = calcRank(correctNumCount + zeroCount);
