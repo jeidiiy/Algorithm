@@ -1,4 +1,4 @@
-package com.example;
+package baekjoon.queue;
 
 import java.io.*;
 import java.util.*;
