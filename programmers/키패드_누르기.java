@@ -25,15 +25,18 @@ public class 키패드_누르기 {
                     continue;
                 }
 
-                if (calcDistance("left", number) < calcDistance("right", number)) {
+                int calcedLeftDistance = calcDistance("left", number);
+                int calcedRightDistance = calcDistance("right", number);
+
+                if (calcedLeftDistance < calcedRightDistance) {
                     sb.append("L");
                     setCurrentLeftPosition(number);
                     continue;
-                } else if (calcDistance("left", number) > calcDistance("right", number)) {
+                } else if (calcedLeftDistance > calcedRightDistance) {
                     sb.append("R");
                     setCurrentRightPosition(number);
                     continue;
-                } else if (calcDistance("left", number) == calcDistance("right", number)) {
+                } else if (calcedLeftDistance == calcedRightDistance) {
                     if (hand.equals("left")) {
                         sb.append("L");
                         setCurrentLeftPosition(number);
