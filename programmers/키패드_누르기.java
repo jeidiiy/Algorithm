@@ -65,15 +65,8 @@ public class 키패드_누르기 {
                 currentLeftPosition.setPosition(1, -1);
             } else if (number == 7) {
                 currentLeftPosition.setPosition(2, -1);
-            } else if (number == 2) {
-                currentLeftPosition.setPosition(0, 0);
-            } else if (number == 5) {
-                currentLeftPosition.setPosition(1, 0);
-            } else if (number == 8) {
-                currentLeftPosition.setPosition(2, 0);
-            } else if (number == 0) {
-                currentLeftPosition.setPosition(3, 0);
-            }
+            } else
+                setCurrentMiddlePosition(currentLeftPosition, number);
         }
 
         private void setCurrentRightPosition(int number) {
@@ -83,14 +76,19 @@ public class 키패드_누르기 {
                 currentRightPosition.setPosition(1, 1);
             } else if (number == 9) {
                 currentRightPosition.setPosition(2, 1);
-            } else if (number == 2) {
-                currentRightPosition.setPosition(0, 0);
+            } else
+                setCurrentMiddlePosition(currentRightPosition, number);
+        }
+
+        private void setCurrentMiddlePosition(Position position, int number) {
+            if (number == 2) {
+                position.setPosition(0, 0);
             } else if (number == 5) {
-                currentRightPosition.setPosition(1, 0);
+                position.setPosition(1, 0);
             } else if (number == 8) {
-                currentRightPosition.setPosition(2, 0);
+                position.setPosition(2, 0);
             } else if (number == 0) {
-                currentRightPosition.setPosition(3, 0);
+                position.setPosition(3, 0);
             }
         }
 
