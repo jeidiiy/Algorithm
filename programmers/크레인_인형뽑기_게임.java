@@ -8,6 +8,11 @@ public class 크레인_인형뽑기_게임 {
         public int solution(int[][] board, int[] moves) {
             int answer = 0;
             Stack<Integer> stack = new Stack<>();
+            /**
+             * 스택이 비었을 때 peek() 수행 시 발생하는 예외를 막기 위해
+             * isEmpty()를 수행했지만 그냥 0을 하나 넣어둠으로써 불필요한 체크를 제거
+             */
+            stack.push(0);
 
             for (int move : moves) {
                 int column = move - 1;
@@ -18,7 +23,7 @@ public class 크레인_인형뽑기_게임 {
                     if (doll == 0)
                         continue;
                     else {
-                        if (!stack.isEmpty() && stack.peek() == doll) {
+                        if (stack.peek() == doll) {
                             stack.pop();
                             answer += 2;
                         } else {
