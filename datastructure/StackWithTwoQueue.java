@@ -65,14 +65,14 @@ public class StackWithTwoQueue<T> {
         stack.push(2);
         stack.push(3);
 
-        System.out.println("Current stack's status: " + stack); // [1, 2, 3]
+        System.out.println("Current stack's status: " + stack); // [3, 2, 1]
         System.out.println("peek: " + stack.peek()); // 3
         System.out.println("pop: " + stack.pop()); // 3
 
         stack.push(4);
         stack.push(5);
 
-        System.out.println("Current stack's status: " + stack); // [1, 2, 4, 5]
+        System.out.println("Current stack's status: " + stack); // [5, 4, 2, 1]
         System.out.println("peek: " + stack.peek()); // 5
         System.out.println("pop: " + stack.pop()); // 5
         System.out.println("pop: " + stack.pop()); // 4
