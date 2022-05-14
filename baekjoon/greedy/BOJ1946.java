@@ -41,8 +41,6 @@ public class BOJ1946 {
                     ranks[j] = null;
                 }
                 ranks = null;
-                input = null;
-                tokens = null;
                 standardCandidateRank = null;
             }
         }
