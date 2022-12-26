@@ -11,11 +11,13 @@ public class 과일_장수 {
             if (score.length < m)
                 return 0;
 
-            score = Arrays.stream(score).boxed().sorted(Collections.reverseOrder())
-                    .mapToInt(Integer::intValue).toArray();
+            Arrays.sort(score);
 
-            for (int i = m; i <= score.length; i += m) {
-                answer += score[i - 1] * m;
+            // score = Arrays.stream(score).boxed().sorted(Collections.reverseOrder())
+            // .mapToInt(Integer::intValue).toArray();
+
+            for (int i = score.length; i >= m; i -= m) {
+                answer += score[i - m] * m;
             }
 
             return answer;
