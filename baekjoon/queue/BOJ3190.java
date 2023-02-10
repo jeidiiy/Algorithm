@@ -9,72 +9,77 @@ import java.util.Queue;
 
 public class BOJ3190 {
     public static void main(String[] args) throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+        Game game = new Game();
+        game.setGame();
+        int playTime = game.playGame();
+        System.out.println(playTime);
+    }
 
-            int playTime = 0;
-            // 오른쪽, 아래, 왼쪽, 위
-            int[] dx = {0, 1, 0, -1};
-            int[] dy = {1, 0, -1, 0};
-            int currentDirection = 0; // 기본 - 우측이동
-            Queue<DirectionInfo> directionInfos = new LinkedList<>();
-            LinkedList<Position> snakeBodies = new LinkedList<>();
+    static class Game {
+        private int playTime = 0;
+        private int boardSize;
+        private int[][] board;
+
+        // 오른쪽, 아래, 왼쪽, 위
+        private int[] dx = {0, 1, 0, -1};
+        private int[] dy = {1, 0, -1, 0};
+        private int currentDirection = 0; // 기본 - 우측이동
+
+        private Queue<DirectionInfo> directionInfos = new LinkedList<>();
+        private LinkedList<Position> snakeBodies = new LinkedList<>();
+
+        public void setGame() throws IOException {
             snakeBodies.offer(Position.of(1, 1)); // 시작 위치는 [1, 1]
 
-            int N = Integer.parseInt(br.readLine());
-            int[][] board = new int[N + 1][N + 1];
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+                boardSize = Integer.parseInt(br.readLine());
+                board = new int[boardSize + 1][boardSize + 1];
 
-            // 사과 채우기
-            int K = Integer.parseInt(br.readLine());
-            for (int i = 0; i < K; i++) {
-                int[] position = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
-                        .toArray();
-                board[position[0]][position[1]] = 1;
+                // 사과 채우기
+                int K = Integer.parseInt(br.readLine());
+                for (int i = 0; i < K; i++) {
+                    int[] position = Arrays.stream(br.readLine().split(" "))
+                            .mapToInt(Integer::parseInt).toArray();
+                    board[position[0]][position[1]] = 1;
+                }
+
+                // 방향 전환 정보 저장
+                int L = Integer.parseInt(br.readLine());
+                for (int i = 0; i < L; i++) {
+                    String[] tokens = br.readLine().split(" ");
+                    int X = Integer.parseInt(tokens[0]);
+                    char C = tokens[1].charAt(0);
+
+                    DirectionInfo directionInfo = DirectionInfo.of(X, C);
+                    directionInfos.offer(directionInfo);
+                }
             }
+        }
 
-            // 방향 전환 정보 저장
-            int L = Integer.parseInt(br.readLine());
-            for (int i = 0; i < L; i++) {
-                String[] tokens = br.readLine().split(" ");
-                int X = Integer.parseInt(tokens[0]);
-                char C = tokens[1].charAt(0);
-
-                DirectionInfo directionInfo = DirectionInfo.of(X, C);
-                directionInfos.offer(directionInfo);
-            }
-
-            // 게임 시작
+        public int playGame() {
             while (true) {
-
                 playTime++;
 
-                // 한 칸 전진
                 Position head = snakeBodies.peek();
                 Position newHead = Position.of(head.getX() + dx[currentDirection],
                         head.getY() + dy[currentDirection]);
 
-                // 벽에 닿았으면 종료
-                if (newHead.getX() <= 0 || newHead.getY() <= 0 || newHead.getX() > N
-                        || newHead.getY() > N)
+                if (isBumpedAgainstBorder(newHead))
                     break;
 
-                // 자기 몸에 닿으면 종료
-                boolean isTouched = snakeBodies.stream().anyMatch(
-                        (body) -> body.getX() == newHead.getX() && body.getY() == newHead.getY());
-                if (isTouched)
+                if (isTouchedItself(snakeBodies, newHead))
                     break;
 
-                // 사과 확인. 있으면 사과 지우고 통과, 없으면 꼬리 제거
-                if (board[newHead.getX()][newHead.getY()] == 1) {
-                    board[newHead.getX()][newHead.getY()] = 0;
+                if (isExistApple(board, newHead)) {
+                    eatApple(board, newHead);
                 } else {
-                    snakeBodies.pollLast();
+                    moveTail(snakeBodies);
                 }
 
                 snakeBodies.offerFirst(newHead);
 
-                // 방향 전환 확인
-                if (!directionInfos.isEmpty() && directionInfos.peek().getTime() == playTime) {
-                    switch (directionInfos.peek().getDirection()) {
+                if (isItTimeForChangeOfDirection(playTime, directionInfos)) {
+                    switch (getNextDirection()) {
                         case 'D':
                             currentDirection = (currentDirection + 1) % 4;
                             break;
@@ -84,11 +89,40 @@ public class BOJ3190 {
                         default:
                             break;
                     }
-                    directionInfos.poll();
                 }
             }
+            return playTime;
+        }
 
-            System.out.println(playTime);
+        private char getNextDirection() {
+            return directionInfos.poll().getDirection();
+        }
+
+        private void moveTail(LinkedList<Position> snakeBodies) {
+            snakeBodies.pollLast();
+        }
+
+        private void eatApple(int[][] board, Position newHead) {
+            board[newHead.getX()][newHead.getY()] = 0;
+        }
+
+        private boolean isExistApple(int[][] board, Position newHead) {
+            return board[newHead.getX()][newHead.getY()] == 1;
+        }
+
+        private boolean isItTimeForChangeOfDirection(int playTime,
+                Queue<DirectionInfo> directionInfos) {
+            return !directionInfos.isEmpty() && directionInfos.peek().getTime() == playTime;
+        }
+
+        private boolean isTouchedItself(LinkedList<Position> snakeBodies, Position newHead) {
+            return snakeBodies.stream().anyMatch(
+                    (body) -> body.getX() == newHead.getX() && body.getY() == newHead.getY());
+        }
+
+        private boolean isBumpedAgainstBorder(Position newHead) {
+            return newHead.getX() <= 0 || newHead.getY() <= 0 || newHead.getX() > boardSize
+                    || newHead.getY() > boardSize;
         }
     }
 
@@ -100,21 +134,8 @@ public class BOJ3190 {
             return x;
         }
 
-        public void setX(int x) {
-            this.x = x;
-        }
-
         public int getY() {
             return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public void setPosition(int x, int y) {
-            this.x = x;
-            this.y = y;
         }
 
         private Position(int x, int y) {
@@ -127,20 +148,6 @@ public class BOJ3190 {
         }
     }
 
-    static enum Direction {
-        UP(0), DOWN(1), LEFT(2), RIGHT(3);
-
-        private final int order;
-
-        Direction(int order) {
-            this.order = order;
-        }
-
-        int getOrder() {
-            return order;
-        }
-    }
-
     final static class DirectionInfo {
         private int time;
         private char direction;
@@ -149,16 +156,8 @@ public class BOJ3190 {
             return time;
         }
 
-        public void setTime(int time) {
-            this.time = time;
-        }
-
         public char getDirection() {
             return direction;
-        }
-
-        public void setDirection(char direction) {
-            this.direction = direction;
         }
 
         private DirectionInfo(int time, char direction) {
