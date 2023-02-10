@@ -12,8 +12,10 @@ public class BOJ3190 {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
 
             int playTime = 0;
-            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // 상하좌우
-            Direction currentDirection = Direction.RIGHT; // 기본 - 우측이동
+            // 오른쪽, 아래, 왼쪽, 위
+            int[] dx = {0, 1, 0, -1};
+            int[] dy = {1, 0, -1, 0};
+            int currentDirection = 0; // 기본 - 우측이동
             Queue<DirectionInfo> directionInfos = new LinkedList<>();
             LinkedList<Position> snakeBodies = new LinkedList<>();
             snakeBodies.offer(Position.of(1, 1)); // 시작 위치는 [1, 1]
@@ -40,15 +42,15 @@ public class BOJ3190 {
                 directionInfos.offer(directionInfo);
             }
 
+            // 게임 시작
             while (true) {
 
                 playTime++;
 
                 // 한 칸 전진
                 Position head = snakeBodies.peek();
-                Position newHead =
-                        Position.of(head.getX() + directions[currentDirection.getOrder()][0],
-                                head.getY() + directions[currentDirection.getOrder()][1]);
+                Position newHead = Position.of(head.getX() + dx[currentDirection],
+                        head.getY() + dy[currentDirection]);
 
                 // 벽에 닿았으면 종료
                 if (newHead.getX() <= 0 || newHead.getY() <= 0 || newHead.getX() > N
@@ -74,31 +76,14 @@ public class BOJ3190 {
                 if (!directionInfos.isEmpty() && directionInfos.peek().getTime() == playTime) {
                     switch (directionInfos.peek().getDirection()) {
                         case 'D':
-                            if (currentDirection == Direction.RIGHT) {
-                                currentDirection = Direction.DOWN;
-                            } else if (currentDirection == Direction.DOWN) {
-                                currentDirection = Direction.LEFT;
-                            } else if (currentDirection == Direction.LEFT) {
-                                currentDirection = Direction.UP;
-                            } else if (currentDirection == Direction.UP) {
-                                currentDirection = Direction.RIGHT;
-                            }
+                            currentDirection = (currentDirection + 1) % 4;
                             break;
                         case 'L':
-                            if (currentDirection == Direction.RIGHT) {
-                                currentDirection = Direction.UP;
-                            } else if (currentDirection == Direction.DOWN) {
-                                currentDirection = Direction.RIGHT;
-                            } else if (currentDirection == Direction.LEFT) {
-                                currentDirection = Direction.DOWN;
-                            } else if (currentDirection == Direction.UP) {
-                                currentDirection = Direction.LEFT;
-                            }
+                            currentDirection = (currentDirection + 3) % 4;
                             break;
                         default:
                             break;
                     }
-
                     directionInfos.poll();
                 }
             }
