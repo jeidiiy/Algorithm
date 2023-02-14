@@ -42,7 +42,7 @@ public class BOJ4963 {
 
                 for (int h = 0; h < height; h++) {
                     for (int w = 0; w < width; w++) {
-                        if (!isVisited[h][w] && map[h][w] == LAND) {
+                        if (map[h][w] == LAND && !isVisited[h][w]) {
                             dfs(h, w);
                             answer++;
                         }
