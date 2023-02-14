@@ -14,6 +14,8 @@ public class BOJ4963 {
     static int width;
     static int height;
     static int answer;
+    static final int LAND = 1;
+    static final int SEA = 0;
 
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
@@ -40,16 +42,18 @@ public class BOJ4963 {
 
                 for (int h = 0; h < height; h++) {
                     for (int w = 0; w < width; w++) {
-                        if (!isVisited[h][w]) {
-                            if (dfs(h, w) == 1)
-                                answer++;
+                        if (!isVisited[h][w] && map[h][w] == LAND) {
+                            dfs(h, w);
+                            answer++;
                         }
                     }
                 }
-
-                System.out.println(answer);
             }
+
+            System.out.println(answer);
         }
+    }
+
     }
 
     private static int dfs(int h, int w) {
@@ -64,11 +68,9 @@ public class BOJ4963 {
                 continue;
             }
 
-            if (!isVisited[nextH][nextW] && map[nextH][nextW] == currentLocation) {
+            if (!isVisited[nextH][nextW] && map[nextH][nextW] == LAND) {
                 dfs(nextH, nextW);
             }
         }
-
-        return currentLocation;
     }
 }
