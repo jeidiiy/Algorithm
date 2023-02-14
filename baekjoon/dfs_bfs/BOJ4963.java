@@ -48,17 +48,13 @@ public class BOJ4963 {
                         }
                     }
                 }
+                System.out.println(answer);
             }
-
-            System.out.println(answer);
         }
     }
 
-    }
-
-    private static int dfs(int h, int w) {
+    private static void dfs(int h, int w) {
         isVisited[h][w] = true;
-        int currentLocation = map[h][w];
 
         for (int i = 0; i < 8; i++) {
             int nextH = h + dx[i];
@@ -68,7 +64,7 @@ public class BOJ4963 {
                 continue;
             }
 
-            if (!isVisited[nextH][nextW] && map[nextH][nextW] == LAND) {
+            if (map[nextH][nextW] == LAND && !isVisited[nextH][nextW]) {
                 dfs(nextH, nextW);
             }
         }
