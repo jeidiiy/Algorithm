@@ -19,28 +19,28 @@ public class BOJ11725 {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             N = Integer.parseInt(br.readLine());
 
-            tree = new ArrayList[N];
-            isVisited = new boolean[N];
-            answer = new Integer[N];
+            tree = new ArrayList[N + 1];
+            isVisited = new boolean[N + 1];
+            answer = new Integer[N + 1];
 
-            for (int i = 0; i < N; i++) {
+            for (int i = 1; i <= N; i++) {
                 tree[i] = new ArrayList<>();
             }
 
             for (int i = 0; i < N - 1; i++) {
                 int[] edgeInfos = Arrays.stream(br.readLine().split(" "))
-                        .mapToInt(Integer::parseInt).map(edgeInfo -> edgeInfo - 1).toArray();
+                        .mapToInt(Integer::parseInt).toArray();
 
                 tree[edgeInfos[0]].add(edgeInfos[1]);
                 tree[edgeInfos[1]].add(edgeInfos[0]);
             }
 
-            dfs(0);
-            // bfs();
+            // dfs(1);
+            bfs();
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 1; i < N; i++) {
-                sb.append(answer[i] + 1).append("\n");
+            for (int i = 2; i <= N; i++) {
+                sb.append(answer[i]).append("\n");
             }
 
             System.out.print(sb);
@@ -59,8 +59,8 @@ public class BOJ11725 {
 
     private static void bfs() {
         Queue<Integer> queue = new LinkedList<Integer>();
-        queue.add(0);
-        isVisited[0] = true;
+        queue.add(1);
+        isVisited[1] = true;
         while (!queue.isEmpty()) {
             Integer vertex = queue.remove();
             for (Integer node : tree[vertex]) {
