@@ -7,7 +7,6 @@ public class BOJ3003 {
 
     static int[] defaultChessPieces = {1, 1, 2, 2, 2, 8};
     static int idx = 0;
-    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
