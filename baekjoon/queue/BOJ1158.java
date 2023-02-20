@@ -9,8 +9,8 @@ public class BOJ1158 {
     static int[] input;
     static int N;
     static int K;
-    static Queue<Integer> queue;
-    static Queue<Integer> ans;
+    static List<Integer> list;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
@@ -18,21 +18,17 @@ public class BOJ1158 {
             N = input[0];
             K = input[1];
 
-            queue = new LinkedList<>();
-            ans = new LinkedList<>();
-            IntStream.rangeClosed(1, N).forEach(queue::add);
+            list = new ArrayList<>();
+            IntStream.rangeClosed(1, N).forEach(list::add);
 
-            while (!queue.isEmpty()) {
-                IntStream.rangeClosed(1, K - 1).forEach(idx -> queue.add(queue.remove()));
-                ans.add(queue.remove());
-            }
-
-            StringBuilder sb = new StringBuilder();
             sb.append("<");
-            while (!ans.isEmpty()) {
-                sb.append(ans.remove()).append(", ");
+            int remove = 0;
+            while (list.size() != 1) {
+                remove = (remove + K - 1) % list.size();
+                sb.append(list.get(remove)).append(", ");
+                list.remove(remove);
             }
-            sb.delete(sb.length() - 2, sb.length()).append(">");
+            sb.append(list.get(0)).append(">");
 
             System.out.print(sb);
         }
