@@ -9,10 +9,10 @@ public class BOJ10815 {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             br.readLine();
             Set<Integer> sangeunCards = Arrays.stream(br.readLine().split(" "))
-                    .mapToInt(Integer::valueOf).boxed().collect(Collectors.toSet());
+                    .mapToInt(Integer::parseInt).boxed().collect(Collectors.toSet());
             br.readLine();
             List<Integer> cardsForComparing = Arrays.stream(br.readLine().split(" "))
-                    .mapToInt(Integer::valueOf).boxed().collect(Collectors.toList());
+                    .mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
 
             StringBuilder sb = new StringBuilder();
             cardsForComparing.stream().forEach(card -> {
