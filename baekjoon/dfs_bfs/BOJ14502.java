@@ -124,7 +124,7 @@ public class BOJ14502 {
     }
 
 
-    static class Position {
+    private static class Position {
         private int x;
         private int y;
 
