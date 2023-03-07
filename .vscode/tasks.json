@@ -1,0 +1,29 @@
+{
+  "tasks": [
+    {
+      "label": "Compile C++ Program",
+      "type": "shell",
+      "command": "c:\\mingw64\\bin\\g++.exe",
+      "args": [
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "options": {
+        "cwd": "C:\\mingw64\\bin"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": "build"
+    },
+    {
+      "label": "Delete Executable",
+      "type": "shell",
+      "command": "del ${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "group": "build",
+      "dependsOn": "Run C++ program",
+      "problemMatcher": []
+    }
+  ],
+  "version": "2.0.0"
+}
