@@ -5,22 +5,24 @@ import java.util.*;
 
 public class BOJ1269 {
 
-    static Set<String> set = new HashSet<>();
-
     public static void main(String[] args) throws IOException {
+        int N, M = 0;
+        ArrayList<Integer> arr;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            br.readLine();
+            String[] split = br.readLine().split(" ");
+            N = Integer.parseInt(split[0]);
+            M = Integer.parseInt(split[1]);
 
-            Arrays.stream(br.readLine().split(" ")).forEach(s -> set.add(s));
-            Arrays.stream(br.readLine().split(" ")).forEach(s -> {
-                if (set.contains(s))
-                    set.remove(s);
-                else
-                    set.add(s);
-            });
+            arr = new ArrayList<>(N);
+            Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
+                    .forEach(elem -> arr.add(elem));
 
-            System.out.print(set.size());
+            Collections.sort(arr);
+
+            long cnt = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
+                    .filter(elem -> Collections.binarySearch(arr, elem) >= 0).count();
+
+            System.out.print(N + M - cnt * 2);
         }
-
     }
 }
