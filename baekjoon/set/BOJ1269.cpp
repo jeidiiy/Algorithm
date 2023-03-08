@@ -1,37 +1,36 @@
 #include <iostream>
-#include <unordered_set>
-#include <sstream>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
-int n, m;
-string arr1[200001], arr2[200001];
-unordered_set<string> set;
-
 int main()
 {
-  cin.tie(0);
-  cout.tie(0);
-  ios_base::sync_with_stdio(0);
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
+  int n, m;
   cin >> n >> m;
 
+  vector<int> arr(n);
   for (int i = 0; i < n; i++)
   {
-    string str;
-    cin >> str;
-    set.insert(str);
+    cin >> arr[i];
   }
 
+  sort(arr.begin(), arr.end());
+
+  int cnt = 0;
   for (int i = 0; i < m; i++)
   {
-    string str;
-    cin >> str;
-    if (set.find(str) == set.end())
-      set.insert(str);
-    else
-      set.erase(str);
+    int temp;
+    cin >> temp;
+    if (binary_search(arr.begin(), arr.end(), temp) == 1)
+    {
+      cnt++;
+    }
   }
 
-  cout << set.size();
+  cout << n + m - 2 * cnt;
 }
