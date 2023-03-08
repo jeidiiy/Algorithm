@@ -14,13 +14,19 @@ public class BOJ1269 {
             M = Integer.parseInt(split[1]);
 
             arr = new ArrayList<>(N);
-            Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
-                    .forEach(elem -> arr.add(elem));
+            split = br.readLine().split(" ");
+            for (int i = 0; i < N; i++) {
+                arr.add(Integer.parseInt(split[i]));
+            }
 
             Collections.sort(arr);
 
-            long cnt = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
-                    .filter(elem -> Collections.binarySearch(arr, elem) >= 0).count();
+            split = br.readLine().split(" ");
+            int cnt = 0;
+            for (int i = 0; i < M; i++) {
+                if (Collections.binarySearch(arr, Integer.parseInt(split[i])) >= 0)
+                    cnt++;
+            }
 
             System.out.print(N + M - cnt * 2);
         }
