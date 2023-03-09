@@ -2,6 +2,8 @@ package baekjoon.dfs_bfs;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BOJ1926 {
 
@@ -32,7 +34,8 @@ public class BOJ1926 {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     if (!isVisited[i][j] && paint[i][j] == 1) {
-                        dfs(i, j, 1);
+                        // max = Math.max(max, dfs(i, j, 1));
+                        max = Math.max(max, bfs(i, j));
                         paintCnt++;
                     }
                 }
@@ -40,6 +43,32 @@ public class BOJ1926 {
 
             System.out.print(paintCnt + "\n" + max);
         }
+    }
+
+    private static int bfs(int i, int j) {
+        Queue<Position> q = new LinkedList<>();
+        q.offer(new Position(i, j));
+        isVisited[i][j] = true;
+
+        int area = 1;
+        while (!q.isEmpty()) {
+            Position p = q.poll();
+            for (int x = 0; x < 4; x++) {
+                int nextX = p.x + dx[x];
+                int nextY = p.y + dy[x];
+
+                if (nextX < 0 || nextX >= n || nextY < 0 || nextY >= m)
+                    continue;
+
+                if (!isVisited[nextX][nextY] && paint[nextX][nextY] == 1) {
+                    q.offer(new Position(nextX, nextY));
+                    isVisited[nextX][nextY] = true;
+                    area++;
+                }
+            }
+        }
+
+        return area;
     }
 
     private static int dfs(int i, int j, int area) {
@@ -60,9 +89,16 @@ public class BOJ1926 {
                 area = dfs(nextX, nextY, area + 1);
         }
 
-        if (max < area)
-            max = area;
-
         return area;
+    }
+
+    private static class Position {
+        int x;
+        int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }
