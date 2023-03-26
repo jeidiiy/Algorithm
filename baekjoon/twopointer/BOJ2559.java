@@ -15,8 +15,7 @@ public class BOJ2559 {
         int[] temparatures =
                 Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
-        int pA = K;
-        int pB = K - 1;
+        int p = K;
 
         int sum = 0;
         for (int i = 0; i < K; i++) {
@@ -24,21 +23,14 @@ public class BOJ2559 {
         }
 
         int MAX = sum;
-        boolean isATurn = true;
 
-        while (pA < N && pB < N) {
-            sum -= isATurn ? temparatures[pA - K] : temparatures[pB - K];
-            sum += isATurn ? temparatures[pA] : temparatures[pB];
+        while (p < N) {
+            sum -= temparatures[p - K];
+            sum += temparatures[p];
 
             MAX = Math.max(MAX, sum);
 
-            if (isATurn) {
-                pB = pA + 1;
-            } else {
-                pA = pB + 1;
-            }
-
-            isATurn = !isATurn;
+            p += 1;
         }
 
         System.out.print(MAX);
