@@ -1,3 +1,5 @@
+package baekjoon.math;
+
 import java.io.*;
 import java.util.*;
 
