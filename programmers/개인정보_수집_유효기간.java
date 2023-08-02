@@ -27,10 +27,11 @@ public class 개인정보_수집_유효기간 {
             for (String privacy : privacies) {
                 index++;
                 String[] privacyDetails = privacy.split(" ");
-                String expireDate = privacyDetails[0];
+                String collectDate = privacyDetails[0];
                 String kindOfTerm = privacyDetails[1];
+                int expireDay = getDay(collectDate) + (termsMap.get(kindOfTerm) * DAY_OF_MONTH);
 
-                if (getDay(expireDate) + (termsMap.get(kindOfTerm) * DAY_OF_MONTH) <= todayDay) {
+                if (expireDay <= todayDay) {
                     answer.add(index);
                 }
             }
