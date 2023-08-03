@@ -15,11 +15,10 @@ public class 성격_유형_검사하기 {
                 int result = choice - 4;
                 int selectedType = result < 0 ? 0 : 1;
 
-                if (result != 0) {
-                    personalityType.put(
-                            types[selectedType],
-                            personalityType.get(types[selectedType]) + Math.abs(result));
-                }
+                personalityType.put(
+                        types[selectedType],
+                        personalityType.get(types[selectedType]) + Math.abs(result));
+
             }
 
             StringBuilder sb = new StringBuilder();
