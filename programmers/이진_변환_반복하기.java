@@ -31,15 +31,7 @@ public class 이진_변환_반복하기 {
 
             int len = s.length() - curZeros;
 
-            StringBuilder sb = new StringBuilder();
-            while (len > 1) {
-                sb.append(len % 2);
-                len = len / 2;
-            }
-            sb.append(1);
-            String next = sb.reverse().toString();
-
-            convertToBinary(next);
+            convertToBinary(Integer.toBinaryString(len));
         }
     }
 }
